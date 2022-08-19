@@ -5,17 +5,36 @@ import '../Style/Table.css';
 // import fatchPlanetsList from '../services/fatchPlanetsList';
 
 function Table() {
+  const { list } = useContext(PlanetsContext);
+  // console.log(list);
+  // const [handleFilter, setHandleFilter] = useState(false);
+
+  // const filter = list.filter((planet) => (
+  //   planet.name.includes(filterText)
+  // ));
+
+  // const populationFilter = () => {
+  //   console.log('teste');
+  //   if (addFilter) {
+  //     filter.filter((planet) => (
+  //       planet.population < filterNumber.valueFilter
+
+  //     ));
+  //   }
+  // };
+
   // useEffect(() => {
+  //   populationFilter();
+  // }, [addFilter]);
 
-  // }, []);
+  // const filterNumber = filter.filter(() => (
 
-  const { list, filterText } = useContext(PlanetsContext);
-  const filter = list.filter((planet) => (
-    planet.name.includes(filterText)
-  ));
+  // ))
+
   const tHead = list.length === 0
     ? []
     : Object.keys(list[0]);
+
   return (
     <div className="tableContainer">
       <table className="tableMain">
@@ -31,9 +50,13 @@ function Table() {
           </tr>
         </thead>
         <tbody>
-          {filter.length === 0
-            ? <tr> loading... </tr>
-            : filter.map((planet) => (
+          {list.length === 0
+            ? (
+              <tr>
+                <td> loading... </td>
+              </tr>
+            )
+            : list.map((planet) => (
               <tr key={ planet.name }>
                 <td>
                   { planet.name }
