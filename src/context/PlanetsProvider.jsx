@@ -37,35 +37,41 @@ function PlanetsProvider({ children }) {
     getPlanets();
   }, []);
 
-  // const filtersSave = [];
+  useEffect(() => {
+    const applyFilters = () => {
+      let valuesRequest = planetList;
+      filterByNumericValues.forEach((fil) => {
+        console.log(fil);
+        const maiorQ = valuesRequest.filter((planet) => (
+          planet[fil.columnSelect] > Number(fil.valueSelect)
+        ));
 
-  const applyFilters = (selectColumn, comparisonFilter, valueFilter) => {
-     filterByNumericValues.forEach((fil) => {
-    console.log(fil);
-    });
-    // console.log(filtersSave);
+        const menorQ = valuesRequest.filter((planet) => (
+          planet[fil.columnSelect] < Number(fil.valueSelect)
+        ));
 
-    const maiorQ = planetList.filter((planet) => (
-      Number(planet[selectColumn]) > Number(valueFilter)
-    ));
+        const igualA = valuesRequest.filter((planet) => (
+          planet[fil.columnSelect] === fil.valueSelect
+        ));
 
-    const menorQ = planetList.filter((planet) => (
-      Number(planet[selectColumn]) < Number(valueFilter)
-    ));
+        switch (fil.comparisonSelect) {
+        case 'menor que':
+          valuesRequest = menorQ;
+          break;
+        case 'igual a':
+          valuesRequest = igualA;
+          break;
+        default:
+          valuesRequest = maiorQ;
+        }
+        console.log(valuesRequest);
+      });
 
-    const igualA = planetList.filter((planet) => (
-      planet[selectColumn] === valueFilter
-    ));
+      setPlanetList(valuesRequest);
+    };
 
-    switch (comparisonFilter) {
-    case 'menor que':
-      return setPlanetList(menorQ);
-    case 'igual a':
-      return setPlanetList(igualA);
-    default:
-      return setPlanetList(maiorQ);
-    }
-  };
+    applyFilters();
+  }, [filterByNumericValues]);
 
   const filterForNumer = () => {
     const { selectColumn, comparisonFilter, valueFilter } = filterNumber;
@@ -82,8 +88,11 @@ function PlanetsProvider({ children }) {
     ));
 
     setOptionsFilters(optFilter);
-
-    applyFilters(selectColumn, comparisonFilter, valueFilter);
+    setFilterNumber({
+      selectColumn: optFilter[0],
+      comparisonFilter: 'maior que',
+      valueFilter: '0',
+    });
   };
 
   const filterForInputText = planetList.filter((planet) => (
