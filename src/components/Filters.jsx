@@ -11,7 +11,9 @@ function Filters() {
     setFilterText,
     filterNumber,
     setFilterNumber,
-    filterForNumer } = useContext(PlanetsContext);
+    filterForNumer,
+    optionsFilters,
+  } = useContext(PlanetsContext);
 
   const inputFilterText = ({ target }) => {
     setFilterText(target.value);
@@ -22,7 +24,7 @@ function Filters() {
   };
 
   const addNumberFilter = () => {
-    setFilterNumber({ ...filterNumber, addFilter: true });
+    // setFilterNumber({ ...filterNumber, addFilter: true });
     filterForNumer();
   };
 
@@ -44,11 +46,10 @@ function Filters() {
           value={ filterNumber.selectColumn }
           onChange={ selectFilterNumber }
         >
-          <option value="population">population</option>
-          <option value="orbital_period">orbital_period</option>
-          <option value="diameter">diameter</option>
-          <option value="rotation_period">rotation_period</option>
-          <option value="surface_water">surface_water</option>
+          {optionsFilters.map((opt) => (
+            <option value={ opt } key={ opt }>{opt}</option>
+
+          ))}
         </select>
 
         <select

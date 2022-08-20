@@ -11,7 +11,15 @@ function PlanetsProvider({ children }) {
     // addFilter: false,
   };
 
-  // const [addNewFilter, setAddNewFilter] = useState([]);
+  const optionsFiltersNumber = ['population',
+    'orbital_period',
+    'diameter',
+    'rotation_period',
+    'surface_water',
+  ];
+
+  const [filterByNumericValues, setFilterByNumericValues] = useState([]);
+  const [optionsFilters, setOptionsFilters] = useState(optionsFiltersNumber);
   const [planetList, setPlanetList] = useState([]);
   const [filterText, setFilterText] = useState('');
   const [filterNumber, setFilterNumber] = useState(initialFilterNumber);
@@ -22,7 +30,6 @@ function PlanetsProvider({ children }) {
       const { residents, ...rest } = planet;
       return rest;
     });
-    // setAddNewFilter(filterResidents);
     setPlanetList(filterResidents);
   };
 
@@ -30,24 +37,22 @@ function PlanetsProvider({ children }) {
     getPlanets();
   }, []);
 
-  const filterForInputText = planetList.filter((planet) => (
-    planet.name.includes(filterText)
-  ));
+  // const filtersSave = [];
 
-  const filterForNumer = () => {
-    const { selectColumn, comparisonFilter, valueFilter } = filterNumber;
-    // if (comparisonFilter === 'maior que') {
-    //   const test = filterForInputText.filter((planet) => (
-    //     planet[selectColumn] > valueFilter
-    //   ));
-    // console.log(planetList[0].selectColumn);
-    // }
+  const applyFilters = (selectColumn, comparisonFilter, valueFilter) => {
+     filterByNumericValues.forEach((fil) => {
+    console.log(fil);
+    });
+    // console.log(filtersSave);
+
     const maiorQ = planetList.filter((planet) => (
       Number(planet[selectColumn]) > Number(valueFilter)
     ));
+
     const menorQ = planetList.filter((planet) => (
       Number(planet[selectColumn]) < Number(valueFilter)
     ));
+
     const igualA = planetList.filter((planet) => (
       planet[selectColumn] === valueFilter
     ));
@@ -62,6 +67,29 @@ function PlanetsProvider({ children }) {
     }
   };
 
+  const filterForNumer = () => {
+    const { selectColumn, comparisonFilter, valueFilter } = filterNumber;
+
+    setFilterByNumericValues([...filterByNumericValues,
+      { columnSelect: selectColumn,
+        comparisonSelect: comparisonFilter,
+        valueSelect: valueFilter,
+      }]);
+    // filtersSave.push(...filtersSave, { selectColumn, comparisonFilter, valueFilter });
+
+    const optFilter = optionsFilters.filter((opt) => (
+      !selectColumn.includes(opt)
+    ));
+
+    setOptionsFilters(optFilter);
+
+    applyFilters(selectColumn, comparisonFilter, valueFilter);
+  };
+
+  const filterForInputText = planetList.filter((planet) => (
+    planet.name.includes(filterText)
+  ));
+
   const myInitialConstext = {
     list: filterForInputText,
     filterText,
@@ -69,6 +97,7 @@ function PlanetsProvider({ children }) {
     filterNumber,
     setFilterNumber,
     filterForNumer,
+    optionsFilters,
   };
 
   return (

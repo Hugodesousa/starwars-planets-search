@@ -2,34 +2,10 @@ import React, { useContext } from 'react';
 import PlanetsContext from '../context/PlanetsContext';
 import '../Style/Table.css';
 // import PropTypes from 'prop-types';
-// import fatchPlanetsList from '../services/fatchPlanetsList';
 
 function Table() {
   const { list } = useContext(PlanetsContext);
   // console.log(list);
-  // const [handleFilter, setHandleFilter] = useState(false);
-
-  // const filter = list.filter((planet) => (
-  //   planet.name.includes(filterText)
-  // ));
-
-  // const populationFilter = () => {
-  //   console.log('teste');
-  //   if (addFilter) {
-  //     filter.filter((planet) => (
-  //       planet.population < filterNumber.valueFilter
-
-  //     ));
-  //   }
-  // };
-
-  // useEffect(() => {
-  //   populationFilter();
-  // }, [addFilter]);
-
-  // const filterNumber = filter.filter(() => (
-
-  // ))
 
   const tHead = list.length === 0
     ? []
