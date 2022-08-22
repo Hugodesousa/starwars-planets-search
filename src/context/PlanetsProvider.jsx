@@ -8,7 +8,6 @@ function PlanetsProvider({ children }) {
     selectColumn: 'population',
     comparisonFilter: 'maior que',
     valueFilter: '0',
-    // addFilter: false,
   };
 
   const optionsFiltersNumber = ['population',
@@ -21,52 +20,44 @@ function PlanetsProvider({ children }) {
   const [filterByNumericValues, setFilterByNumericValues] = useState([]);
   const [optionsFilters, setOptionsFilters] = useState(optionsFiltersNumber);
   const [planetList, setPlanetList] = useState([]);
+  const [backupPlanetList, setBackupPlanetList] = useState([]);
   const [filterText, setFilterText] = useState('');
   const [filterNumber, setFilterNumber] = useState(initialFilterNumber);
 
-  const getPlanets = async () => {
-    const list = await fatchPlanetsList();
-    const filterResidents = list.results.map((planet) => {
-      const { residents, ...rest } = planet;
-      return rest;
-    });
-    setPlanetList(filterResidents);
-  };
-
   useEffect(() => {
+    const getPlanets = async () => {
+      const list = await fatchPlanetsList();
+      const filterResidents = list.results.map((planet) => {
+        const { residents, ...rest } = planet;
+        return rest;
+      });
+      setPlanetList(filterResidents);
+      setBackupPlanetList(filterResidents);
+    };
     getPlanets();
   }, []);
 
   useEffect(() => {
     const applyFilters = () => {
-      let valuesRequest = planetList;
+      let valuesRequest = backupPlanetList;
       filterByNumericValues.forEach((fil) => {
-        console.log(fil);
-        const maiorQ = valuesRequest.filter((planet) => (
-          planet[fil.columnSelect] > Number(fil.valueSelect)
-        ));
-
-        const menorQ = valuesRequest.filter((planet) => (
-          planet[fil.columnSelect] < Number(fil.valueSelect)
-        ));
-
-        const igualA = valuesRequest.filter((planet) => (
-          planet[fil.columnSelect] === fil.valueSelect
-        ));
-
         switch (fil.comparisonSelect) {
         case 'menor que':
-          valuesRequest = menorQ;
+          valuesRequest = valuesRequest.filter((planet) => (
+            planet[fil.columnSelect] < Number(fil.valueSelect)
+          ));
           break;
         case 'igual a':
-          valuesRequest = igualA;
+          valuesRequest = valuesRequest.filter((planet) => (
+            planet[fil.columnSelect] === fil.valueSelect
+          ));
           break;
         default:
-          valuesRequest = maiorQ;
+          valuesRequest = valuesRequest.filter((planet) => (
+            planet[fil.columnSelect] > Number(fil.valueSelect)
+          ));
         }
-        console.log(valuesRequest);
       });
-
       setPlanetList(valuesRequest);
     };
 
@@ -81,7 +72,6 @@ function PlanetsProvider({ children }) {
         comparisonSelect: comparisonFilter,
         valueSelect: valueFilter,
       }]);
-    // filtersSave.push(...filtersSave, { selectColumn, comparisonFilter, valueFilter });
 
     const optFilter = optionsFilters.filter((opt) => (
       !selectColumn.includes(opt)
@@ -93,6 +83,11 @@ function PlanetsProvider({ children }) {
       comparisonFilter: 'maior que',
       valueFilter: '0',
     });
+  };
+
+  const delFilter = (column) => {
+    const del = filterByNumericValues.filter((filter) => filter.columnSelect !== column);
+    setFilterByNumericValues(del);
   };
 
   const filterForInputText = planetList.filter((planet) => (
@@ -107,6 +102,9 @@ function PlanetsProvider({ children }) {
     setFilterNumber,
     filterForNumer,
     optionsFilters,
+    filterByNumericValues,
+    setFilterByNumericValues,
+    delFilter,
   };
 
   return (

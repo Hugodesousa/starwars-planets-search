@@ -1,18 +1,18 @@
 import React, { useContext } from 'react';
 import PlanetsContext from '../context/PlanetsContext';
-// import PropTypes from 'prop-types';
-// import fatchPlanetsList from '../services/fatchPlanetsList';
 import '../Style/Filters.css';
 
 function Filters() {
-  // const [filterText, setfilterText] = useState('');
-
-  const { filterText,
+  const {
+    filterText,
     setFilterText,
     filterNumber,
     setFilterNumber,
     filterForNumer,
     optionsFilters,
+    filterByNumericValues,
+    setFilterByNumericValues,
+    delFilter,
   } = useContext(PlanetsContext);
 
   const inputFilterText = ({ target }) => {
@@ -23,14 +23,14 @@ function Filters() {
     setFilterNumber({ ...filterNumber, [target.name]: target.value });
   };
 
-  const addNumberFilter = () => {
-    // setFilterNumber({ ...filterNumber, addFilter: true });
-    filterForNumer();
+  const clearAllFilters = () => {
+    setFilterByNumericValues([]);
   };
 
   return (
     <div className="filterConteriner">
       <form>
+
         <label htmlFor="filterText">
           <input
             placeholder="Pesquisar"
@@ -40,6 +40,7 @@ function Filters() {
             onChange={ inputFilterText }
           />
         </label>
+
         <select
           name="selectColumn"
           data-testid="column-filter"
@@ -48,7 +49,6 @@ function Filters() {
         >
           {optionsFilters.map((opt) => (
             <option value={ opt } key={ opt }>{opt}</option>
-
           ))}
         </select>
 
@@ -62,6 +62,7 @@ function Filters() {
           <option value="menor que">menor que</option>
           <option value="igual a">igual a</option>
         </select>
+
         <label htmlFor="valueFilter">
           <input
             name="valueFilter"
@@ -73,14 +74,36 @@ function Filters() {
             onChange={ selectFilterNumber }
           />
         </label>
+
         <button
           type="button"
           data-testid="button-filter"
-          onClick={ addNumberFilter }
+          onClick={ filterForNumer }
         >
           acionar o filtro
         </button>
+        <button
+          type="button"
+          onClick={ clearAllFilters }
+          data-testid="button-remove-filters"
+        >
+          Remover todas filtragens
+        </button>
+
       </form>
+      {filterByNumericValues.map((filter) => (
+        <div key={ filter.columnSelect } data-testid="filter">
+          <p>{filter.columnSelect}</p>
+          <p>{filter.comparisonSelect}</p>
+          <p>{filter.valueSelect}</p>
+          <button
+            type="button"
+            onClick={ () => delFilter(filter.columnSelect) }
+          >
+            x
+          </button>
+        </div>
+      ))}
     </div>
   );
 }

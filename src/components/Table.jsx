@@ -1,11 +1,9 @@
 import React, { useContext } from 'react';
 import PlanetsContext from '../context/PlanetsContext';
 import '../Style/Table.css';
-// import PropTypes from 'prop-types';
 
 function Table() {
   const { list } = useContext(PlanetsContext);
-  // console.log(list);
 
   const tHead = list.length === 0
     ? []
@@ -14,6 +12,7 @@ function Table() {
   return (
     <div className="tableContainer">
       <table className="tableMain">
+
         <thead>
           <tr>
             {tHead.length === 0
@@ -25,6 +24,7 @@ function Table() {
               ))}
           </tr>
         </thead>
+
         <tbody>
           {list.length === 0
             ? (
@@ -76,6 +76,7 @@ function Table() {
               </tr>
             ))}
         </tbody>
+
       </table>
     </div>
   );

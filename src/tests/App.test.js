@@ -11,6 +11,7 @@ test('I am your test', () => {
 
 test('Testa input de filtros', async () => {
   render(<App />);
+
   const inputFilterText = screen.getByPlaceholderText(/Pesquisar/i);
   expect(inputFilterText).toBeInTheDocument();
   const selectColumn = screen.getByTestId("column-filter")
@@ -27,4 +28,27 @@ test('Testa input de filtros', async () => {
   userEvent.type(inputFilterText, 'T') 
   const planetshearch = await screen.findByText(/Tatooine/i);
   expect(planetshearch).toBeInTheDocument();
+
+  const filterNumber = screen.getByRole('button', {
+    name: /acionar o filtro/i
+  })
+  const removeFilter = screen.getByRole('button', {
+    name: /remover todas filtragens/i
+  })
+  expect(filterNumber && removeFilter).toBeInTheDocument();
+
+  userEvent.click(filterNumber)
+  const X = screen.getByRole('button', {
+    name: /x/i
+  })
+  userEvent.click(X)
+  expect(X).not.toBeInTheDocument();
+
+  userEvent.click(filterNumber)
+  const XX = screen.getByRole('button', {
+    name: /x/i
+  })
+  expect(XX).toBeInTheDocument();
+  userEvent.click(removeFilter)
+  expect(XX).not.toBeInTheDocument();
 });
