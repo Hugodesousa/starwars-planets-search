@@ -76,8 +76,8 @@ function PlanetsProvider({ children }) {
     const optFilter = optionsFilters.filter((opt) => (
       !selectColumn.includes(opt)
     ));
-
     setOptionsFilters(optFilter);
+
     setFilterNumber({
       selectColumn: optFilter[0],
       comparisonFilter: 'maior que',
