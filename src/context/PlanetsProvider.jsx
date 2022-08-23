@@ -38,8 +38,8 @@ function PlanetsProvider({ children }) {
   }, []);
 
   useEffect(() => {
+    let valuesRequest = backupPlanetList;
     const applyFilters = () => {
-      let valuesRequest = backupPlanetList;
       filterByNumericValues.forEach((fil) => {
         switch (fil.comparisonSelect) {
         case 'menor que':
@@ -86,8 +86,10 @@ function PlanetsProvider({ children }) {
   };
 
   const delFilter = (column) => {
+    console.log(column);
     const del = filterByNumericValues.filter((filter) => filter.columnSelect !== column);
     setFilterByNumericValues(del);
+    setOptionsFilters([...optionsFilters, column]);
   };
 
   const filterForInputText = planetList.filter((planet) => (
