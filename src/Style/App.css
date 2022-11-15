@@ -1,5 +1,7 @@
 body {
+  background-image: url('../imgs/pexels-photo-998641.jpeg');
   box-sizing: border-box;
+  color: white;
   margin: 0;
   padding: 0;
 }

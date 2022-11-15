@@ -16,9 +16,9 @@ function Table() {
         <thead>
           <tr>
             {tHead.length === 0
-              ? <th> loading... </th>
+              ? <th className="tableCell"> loading... </th>
               : tHead.map((item) => (
-                <th className="table" key={ item }>
+                <th className="tableCell" key={ item }>
                   { item }
                 </th>
               ))}
@@ -34,43 +34,43 @@ function Table() {
             )
             : list.map((planet) => (
               <tr key={ planet.name }>
-                <td>
+                <td className="tableCell">
                   { planet.name }
                 </td>
-                <td>
+                <td className="tableCell">
                   { planet.rotation_period }
                 </td>
-                <td>
+                <td className="tableCell">
                   { planet.orbital_period }
                 </td>
-                <td>
+                <td className="tableCell">
                   { planet.diameter }
                 </td>
-                <td>
+                <td className="tableCell">
                   { planet.climate }
                 </td>
-                <td>
+                <td className="tableCell">
                   { planet.gravity }
                 </td>
-                <td>
+                <td className="tableCell">
                   { planet.terrain }
                 </td>
-                <td>
+                <td className="tableCell">
                   { planet.surface_water }
                 </td>
-                <td>
+                <td className="tableCell">
                   { planet.population }
                 </td>
-                <td>
+                <td className="tableCell">
                   { planet.films }
                 </td>
-                <td>
+                <td className="tableCell">
                   { planet.created }
                 </td>
-                <td>
+                <td className="tableCell">
                   { planet.edited }
                 </td>
-                <td>
+                <td className="tableCell">
                   { planet.url }
                 </td>
               </tr>
